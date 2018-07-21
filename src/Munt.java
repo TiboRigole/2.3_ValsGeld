@@ -3,25 +3,46 @@ public class Munt {
 	
 	private char id;
 	private Boolean echteMunt;
-	private Boolean teZwaar;
-	private Boolean teLicht;
+	private Boolean misschienTeZwaar;
+	private Boolean misschienTeLicht;
+	
+	//default constructor
+	public Munt() {
+		id = ' ';
+		echteMunt = null;
+		misschienTeZwaar = null;
+		misschienTeLicht = null;
+	}
 	
 	//constructor
 	public Munt(char id) {
 		this.id = id;
 		echteMunt = null;
-		teZwaar = null;
-		teLicht = null;
+		misschienTeZwaar = null;
+		misschienTeLicht = null;
 	}
 	
 	//setters
 	public void setId(char c) { id = c; }
 	
+	public void setEchteMunt(boolean b) {
+		echteMunt = b;
+	}
+	
+	public void setMisschienTeZwaar(boolean b) {
+		misschienTeZwaar = b;
+	}
+	
+	public void setMisschienTeLicht(boolean b) {
+		misschienTeLicht = b;
+	}
+	
 	//getters
 	public char getId() {return id;}
-	public void setEchteMunt(boolean b) {
-		echteMunt = false;
-	}
+	public Boolean getEcht() {return echteMunt;}
+	public Boolean getMisschienTeLicht() {return misschienTeLicht;}
+	public Boolean getMisschienTeZwaar() {return misschienTeZwaar;}
+
 	
 	/**
 	 *  als het om een valse munt gaat, kunnen we de booleans zetten zodat 
@@ -36,8 +57,8 @@ public class Munt {
 	 */
 	public boolean setValseMunt(char c) {
 		if(echteMunt == false) {
-			if(c == 'Z') {teZwaar = true;}
-			else if(c =='L') {teLicht = true;}
+			if(c == 'Z') {misschienTeZwaar = true;}
+			else if(c =='L') {misschienTeLicht = true;}
 			return true;
 		}
 		else {return false;}
