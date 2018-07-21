@@ -110,6 +110,86 @@ public class MuntenSet {
 		System.out.println("we graken in removeMuntMetChar foute lijn");
 		return null;
 	}
+
+	public String specialeGevallen() {
+		
+		//als geen enkele munt te licht of te zwaarbooleans heeft, dan zijn er te weinig gegevens
+		if(this.geenEnkeleLichtOfZwaar()) {
+			System.out.println("geen enkele munt te licht of te zwaar");
+			return "Te weinig gegevens";}
+		
+		//als geen enkele munt als echte munt
+		if(this.geenEnkeleEchteMunt()) {
+			 // EN er een munt te licht EN te zwaar is
+			 if (this.eenMuntLichtEnZwaar()) {
+				 System.out.println("geen enkele echte munt + 1 munt te licht en te zwaar");
+				 return "Inconsistente Gegevens";}
+			 
+			 //dan is er dus geen munt te licht en te zwaar
+			 else {
+				 System.out.println("geen enkele echte munt + geen enkele munt te licht en te zwaar");
+				 return "Te weinig gegevens";}
+		}
+		
+		
+		//als geen enkel speciaal geval van kracht is
+		else{
+			System.out.println("deze set van wegingen is geen speciaal geval");
+			return "noSpecialGeval";}
+	}
+
+	private boolean eenMuntLichtEnZwaar() {
+		Boolean lichtEnZwaar = false;
+		
+		for(Munt m : muntenSet) {
+			if( (m.getMisschienTeLicht()!=null) && (m.getMisschienTeZwaar()!=null)) {lichtEnZwaar = true;}
+		}
+		
+		return lichtEnZwaar;
+	}
+
+	//als geen enkele munt te licht of te zwaarbooleans heeft --> true
+	private boolean geenEnkeleLichtOfZwaar() {
+		Boolean teLicht = false;
+		Boolean teZwaar = false;
+		
+		for(Munt m : muntenSet) {
+			if(m.getMisschienTeLicht() != null) {teLicht = true;}
+			if(m.getMisschienTeZwaar() != null) {teZwaar = true;}
+		}
+		
+		//als er minstens 1 munt te licht of te zwaar is
+			//return het false
+		if(teLicht || teZwaar) {return false;}
+		else {return true;}
+		
+	}
+	
+	private boolean geenEnkeleEchteMunt() {
+		Boolean eenEchteMunt = false;
+		
+		for(Munt m : muntenSet) {
+			if(m.getEcht() != null) {eenEchteMunt = true;}
+		}
+		
+		return !eenEchteMunt;
+	}
+
+	public String haalMuntenOp() {
+		
+		StringBuilder echte = new StringBuilder();
+		StringBuilder lichte = new StringBuilder();
+		StringBuilder zware = new StringBuilder();
+		
+		for(Munt m : muntenSet) {
+			if(m.getEcht() != null) {echte.append(m.getId());}
+			if(m.getMisschienTeLicht() != null) {lichte.append(m.getId());}
+			if(m.getMisschienTeZwaar() != null) {zware.append(m.getId());}
+		}
+		
+		return echte.toString()+" "+lichte.toString()+" "+zware.toString();
+
+	}
 	
 	
 	
