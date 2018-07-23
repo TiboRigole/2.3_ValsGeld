@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -10,6 +11,9 @@ public class Main {
 		
 		MuntenSet muntenSet = new MuntenSet();
 		
+		//set met alle wegingen met oneffenheden
+		ArrayList<String> valseMinstensEen = new ArrayList<String>();
+		
 		int aantalWegingen;
 		
 		String weging;
@@ -20,7 +24,12 @@ public class Main {
 		
 		//inlezen van alle gegevens
 		int aantalMuntenSets = Integer.parseInt(sc.nextLine());
-		System.out.println(aantalMuntenSets);
+				
+		//System.out.println(aantalMuntenSets);
+		
+		StringBuilder result = new StringBuilder();
+		
+		
 		//voor iedere set van munten
 		for(int geldZak=0; geldZak<aantalMuntenSets; geldZak++) {
 			
@@ -29,6 +38,8 @@ public class Main {
 			
 			//wissen van de gegevens van de vorige zak geld
 			muntenSet.clear();
+			valseMinstensEen.clear();
+			
 			
 			//voor iedere weging
 			for(int wegingId=0; wegingId<aantalWegingen; wegingId++) {
@@ -67,6 +78,9 @@ public class Main {
 					//rechterdeel is misschientelicht
 					muntenSet.markeerAlsTeLicht(rechterDeel);
 					
+					//voeg de munten toe als 1 String aan
+					valseMinstensEen.add(linkerDeel+rechterDeel);
+					
 				}
 				
 				else {
@@ -76,6 +90,9 @@ public class Main {
 					
 					//rechterdeel is misschienteZwaar
 					muntenSet.markeerAlsTeLicht(linkerDeel);
+					
+					//voeg de munten toe als 1 String aan
+					valseMinstensEen.add(linkerDeel+rechterDeel);
 				}
 				
 
@@ -92,12 +109,12 @@ public class Main {
 			
 				// 1) speciale gevallen testen
 					//als geen enkele munt te licht of te zwaarbooleans heeft --> te weinig gegevens
-				String antwoord = muntenSet.specialeGevallen();
+				String antwoord = muntenSet.specialeGevallen(valseMinstensEen);
 				
 				if(!antwoord.equals("noSpecialGeval")) {
 					//dan is het antwoord reeds gevonden, het zit in de string speciaalGeval
-					System.out.println("//////////////////////////");
-					System.out.println(antwoord);
+					//System.out.println(antwoord);
+					//System.out.println(antwoord);
 				}
 				else {
 					
@@ -105,8 +122,8 @@ public class Main {
 					//ofwel een inconsistente gegevens, als een echte munt ook te licht is
 						//bvb bij	abc efg evenwicht
 						//			a e omhoog
-					System.out.println("//////////////////////////");
-					System.out.println("valse munt kan bepaald worden algo starten");
+					//System.out.println("//////////////////////////");
+					//System.out.println("valse munt kan bepaald worden algo starten");
 					//hier na gaan we over op sets
 				
 					//enkel nodig voor als het geen speciaal geval is
@@ -151,22 +168,20 @@ public class Main {
 					}
 					
 					if(lichteMunten.size()==1 && zwareMunten.size()==0) {
-						Character deMunt;
 						
-						//itereren over de lichte munten , het element eruit halen
-						for(Character x : lichteMunten) {deMunt = x;}
-						antwoord = "Het valse geldstuk "+ deMunt +" is lihcter";
+						//het element eruit halen
+						antwoord = "Het valse geldstuk "+ lichteMunten.toString().charAt(1) +" is lichter";
 					}
 					else if (zwareMunten.size()==1 && lichteMunten.size()==0) {
 						Character deMunt;
 						
-						//itereren over de lichte munten , het element eruit halen
-						for(Character x : zwareMunten) {deMunt = x;}
-						antwoord = "Het valse geldstuk "+ deMunt +" is zwaarder";
+						//het element eruit halen
+						antwoord = "Het valse geldstuk "+ zwareMunten.toString().charAt(1)+" is zwaarder";
+					
 					}
-					else {antwoord = "Inconsistente gegevens"}
+					else {antwoord = "Inconsistente gegevens";}
 					
-					
+					//System.out.println(antwoord);
 				
 				}
 				
@@ -187,10 +202,12 @@ public class Main {
 				//als er meer dan 1 munt overblijft, dan zijn er onvoldoende gegevens, maar mss ook tegensprekende gegevens
 			
 
-			
+		result.append(antwoord);
+		if(geldZak != aantalMuntenSets-1) {result.append("\n");}
 		//einde van 1 spelletje	
 		}
 
+		System.out.println(result.toString());
 		
 	}
 
